@@ -1,0 +1,7 @@
+<h1>Hola</h1>
+<form action="" method="post" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <h3>{{message}}</h3>
+    <button type="submit">Send</button>
+</form>
