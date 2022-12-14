@@ -2,16 +2,19 @@ from typing import Dict, Any
 
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import DetailView
+from django.views.generic import DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
+from django.utils.decorators import method_decorator
+
 
 from src.hits.selectors import get_all_my_hits
 from src.hits.models import Hit
-from src.hits.forms import FormStatusHitmen, FormAssignedHit
+from src.hits.forms import FormStatusHitmen, FormAssignedHit, CreateHitFormModel
 from src.hits.transitions.hit import transition
 from src.hitmens.models import Hitmen
-from src.hits.services import update_assigned_hit
+from src.hits.services import update_assigned_hit, create_hit
+from src.hits.decorators import check_user_able_to_create_hit
 # Create your views here.
 
 class HitsView(LoginRequiredMixin, View):
@@ -69,3 +72,19 @@ class HitDetailView(LoginRequiredMixin, DetailView):
             else:
                 return render( request, self.template_name, locals())
 
+method_decorator(check_user_able_to_create_hit('Hitmen'), name='dispatch')
+class HitCreateView(CreateView):
+    model = Hit
+    form_class = CreateHitFormModel
+    success_url = "/hits/"
+    template_name = 'hits/hit_create.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(email=request.user.email)
+        return render(request, self.template_name, locals())
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, email=request.user.email)
+        if form.is_valid():
+            create_hit(form.cleaned_data, request.user.hitmen)
+        return render(request, self.template_name, locals())

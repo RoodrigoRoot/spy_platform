@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 {% load custom_tags %}
 
+{% block title %}List{%endblock%}
+
 {% block content %}
 
-
-
+{% if request.user|has_group:"Manager" or request.user|has_group:"BigBoss"  %}
+<div class="p-1">
+  <a class="btn btn-success" href="{% url 'hits:create_hit' %}">+ New Hit</a>
+</div>
+{% endif %}
 <table class="table">
     <thead>
       <tr>
