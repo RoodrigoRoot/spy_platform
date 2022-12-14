@@ -38,9 +38,9 @@
       {% if object.user.is_active and request.user|has_group:"BigBoss" or request.user|has_group:"Manager" %}
         <input type="checkbox" name="is_active" id="is_active"  {% if object.user.is_active %}checked{% endif %}>
         <br>
+        <button class="btn btn-success" type="submit">Update</button>
         {% else %}
           <p>{{ object.user.is_active }}</p>
-
       {% endif %}
 
         {% if  request.user|has_group:"BigBoss" %}
@@ -61,8 +61,8 @@
 
           </tbody>
         </table>
-        {% endif %}
         <button class="btn btn-success" type="submit">Update</button>
+        {% endif %}
     </form>
 
     </div>

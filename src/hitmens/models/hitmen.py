@@ -23,7 +23,6 @@ class Hitmen(ModelBase):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50, choices=TitleType.choices)
-    #description = models.TextField(blank=True, null=True)
     boss = models.ForeignKey('self', on_delete=models.DO_NOTHING, blank=True, null=True)
     objects = SubordinatesManager()
 

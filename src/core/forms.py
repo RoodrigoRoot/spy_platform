@@ -23,6 +23,8 @@ class RegisterForm(forms.Form):
         "placeholder":"Enter a password"
     }))
 
+    name = forms.CharField( max_length=200, required=False)
+    description = forms.CharField(widget=forms.Textarea)
     def clean_email(self):
         email = str.lower(self.cleaned_data['email'])
         if User.objects.filter(email=email).exists():

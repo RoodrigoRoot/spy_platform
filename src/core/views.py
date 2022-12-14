@@ -32,17 +32,17 @@ class Indexview(LoginRequiredMixin, View):
 class RegisterHitmenView(View):
 
     def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(reverse("core:home"))
         form = RegisterForm()
         return render(request, 'core/register.html', {'form':form})
 
     def post(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return redirect(reverse("core:home"))
-
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = create_user(form.cleaned_data)
             create_hitmen(user)
             return redirect(reverse('core:home'))
         else:
+            print("vino para acá")
             return render(request, 'core/register.html', {'form':form})
