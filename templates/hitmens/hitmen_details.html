@@ -33,24 +33,38 @@
     <p>{{ object.description }}</p>
 
     <h3>Is Active:</h3>
-    {% if object.user.is_active and request.user|has_group:"BigBoss" or request.user|has_group:"Manager" %}
+
     <form action="" method="post">{% csrf_token %}
+      {% if object.user.is_active and request.user|has_group:"BigBoss" or request.user|has_group:"Manager" %}
         <input type="checkbox" name="is_active" id="is_active"  {% if object.user.is_active %}checked{% endif %}>
         <br>
+        {% else %}
+          <p>{{ object.user.is_active }}</p>
+
+      {% endif %}
+
+        {% if  request.user|has_group:"BigBoss" %}
+        <table class="table table-dark w-25">
+          <thead>
+            <tr>
+              <th scope="col">Hitmen</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for subordinate in subordinates %}
+            <tr>
+              <td>{{subordinate.user.email}}</td>
+              <td><a class="btn btn-danger" href="#">Unassign</a></td>
+            </tr>
+          {% endfor %}
+
+          </tbody>
+        </table>
+        {% endif %}
         <button class="btn btn-success" type="submit">Update</button>
     </form>
 
-    {% else %}
-    <p>{{ object.user.is_active }}</p>
-
-    {% endif %}
-
-    {% if subordinates and request.user|has_group:"BigBoss" or request.user|has_group:"Manager" %}
-        <h3>Subordinates:</h3>
-        {% for subordinate in subordinates %}
-            <p><a href="{% url 'hitmens:hitmen_details' pk=subordinate.pk %}">{{ subordinate.user.email }}</a></p>
-        {% endfor%}
-    {% endif %}
     </div>
 
 

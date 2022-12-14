@@ -5,6 +5,11 @@ from django.contrib.auth.forms import AuthenticationForm
 
 
 class LoginForm(AuthenticationForm):
+    
+    """
+    This form is blank, maybe in a future we need more logic or fields to login
+    """
+    
     ...
 
 

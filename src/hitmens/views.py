@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, reverse
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
 from django.core.exceptions import ValidationError
+from django.views import View
 
 from src.hitmens.models import Hitmen
 from src.hitmens.services import change_active_user
@@ -24,7 +25,7 @@ class HitmenListView(LoginRequiredMixin, AccessMixin, ListView):
     def get_queryset(self):
         return Hitmen.objects.get_subordinates_all(self.request.user.email)
 
-class HitmenDetailsDetailView(DetailView):
+class HitmenDetailView(LoginRequiredMixin, DetailView):
     model = Hitmen
     template_name = 'hitmens/hitmen_details.html'
 
