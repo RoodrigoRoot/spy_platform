@@ -53,10 +53,13 @@ def create_hit(data: Dict, creator: Hit) -> Hit:
     Returns:
         Hit: The new Hit created
     """
-    hitmen = data.pop('hitmen', '')
+    if not creator.user.groups.filter(name__in=['BigBoss', 'Manager']).exists():
+        raise ValidationError('This user does not have permissions to this action')
+    hitmen = data.pop('assigned', '')
     hit = Hit(**data)
-    if not hitmen.is_active:
+    if not hitmen.user.is_active:
         raise ValidationError("Can't not assing a deactivated user")
+    hit.assigned = hitmen
     hit.creator = creator
     hit.save()
     return hit
