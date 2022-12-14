@@ -27,4 +27,4 @@ class Hitmen(ModelBase):
     objects = SubordinatesManager()
 
     def __str__(self) -> str:
-        return self.user.username
+        return self.user.email

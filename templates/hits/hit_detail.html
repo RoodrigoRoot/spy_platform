@@ -1,35 +1,96 @@
 {% extends 'base.html' %}
+{% load custom_tags %}
+
 
 {% block title %}{{object.title}}{%endblock%}
 
 {% block content %}
+{% if message_assigned %}
+<div class="alert alert-success" role="alert">
+    {{message_assigned}}.
+    Please reload
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+{% endif %}
+
+{% if message_assigned_error %}
+<div class="alert alert-danger" role="alert">
+    {{message_assigned_error}}.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+{% endif %}
+
+{% if message_error %}
+<div class="alert alert-danger" role="alert">
+    {{message_error}}.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+{% endif %}
+
+{% if message %}
+<div class="alert alert-success" role="alert">
+    {{message}}.
+    Please reload
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+{% endif %}
 
 <div class="cotainter p-5">
+
     <h3>Title:</h3>
 <p>{{ object.title }}</p>
 <h3>Creator:</h3>
 <p>{{ object.creator }}</p>
-<h3>Assigned:</h3>
-<p>{{ object.assigned }}</p>
+{% if request.user|has_group:"Manager" or request.user|has_group:"BigBoss"  and object.status == 'OPEN' %}
+    <h3>Assigned :</h3>
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+        <select id="assigned" name="assigned">
+            {% for x, y in form_assigned.fields.assigned.choices %}
+            <option value="{{ x }}"{% if object.assigned.user.email == y %} selected{% endif %}>{{ y }}</option>
+        {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-success">Update</button>
+    </form>
+
+{% else %}
+    <h3>Assigned:</h3>
+    <p>{{ object.assigned }}</p>
+{% endif %}
 <h3>Description:</h3>
 <p>{{ object.descriptions }}</p>
 
+{% if request.user|has_group:"Manager" or request.user|has_group:"BigBoss" %}
+    <h3>Status:</h3>
+    <p>{{ object.status }}</p>
+{% else %}
+    <h3>Status:</h3>
+    <p>{{ object.status }}</p>
+{% endif %}
+
 {% if request.user.hitmen == object.assigned %}
 <form action="" method="post" novalidate>
-    <h3>Status:</h3>
+    <h3>Status Hitmen:</h3>
     {% csrf_token %}
-    <select id="status" name="status">
-        {% for x, y in form.fields.status.choices %}
-            <option value="{{ x }}"{% if object.status == x %} selected{% endif %}>{{ y }}</option>
+    <select id="status_hitmen" name="status_hitmen">
+        {% for x, y in form.fields.status_hitmen.choices %}
+            <option value="{{ x }}"{% if object.status_hitmen == x %} selected{% endif %}>{{ y }}</option>
         {% endfor %}
         </select>
-    <button type="submit">Update</button>
+    <button type="submit" class="btn btn-success">Update</button>
     <p>{{ message_error }}</p>
-    <p>{{ form.errors }}</p>
 </form>
 {% else %}
-<h3>Status:</h3>
-<p>{{ object.status }}</p>
+<h3>Status Hitmen:</h3>
+<p>{{ object.status_hitmen }}</p>
 
 {% endif %}
 <div>

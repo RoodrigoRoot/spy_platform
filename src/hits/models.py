@@ -33,17 +33,24 @@ class MyHits(models.Manager):
 
 class Hit(ModelBase):
 
-    class StatusHit(models.TextChoices):
+    class StatusHitmen(models.TextChoices):
         ASSIGNED = 'ASSIGNED', 'ASSIGNED'
         COMPLETED = 'COMPLETED', 'COMPLETED'
         FAILED_ASSIGNED = 'FAILED_ASSIGNED', 'FAILED_ASSIGNED'
+        FAILED = 'FAILED', 'FAILED'
+
+    class Status(models.TextChoices):
+        CLOSED = 'CLOSED', 'CLOSED'
+        OPEN = 'OPEN', 'OPEN'
+        SUCCESS = 'SUCCESS', 'SUCCESS'
         FAILED = 'FAILED', 'FAILED'
 
     title = models.CharField(max_length=200)
     target = models.CharField(max_length=200)
     descriptions = models.TextField()
     creator = models.ForeignKey(Hitmen, on_delete=models.DO_NOTHING)
-    status = models.CharField(max_length=200, choices=StatusHit.choices, default=StatusHit.ASSIGNED)
+    status_hitmen = models.CharField(max_length=200, choices=StatusHitmen.choices, default=StatusHitmen.ASSIGNED)
+    status = models.CharField(max_length=200, choices=Status.choices, default=Status.OPEN)
     assigned = models.ForeignKey(Hitmen, on_delete=models.DO_NOTHING, related_name='hits')
     objects = MyHits()
 

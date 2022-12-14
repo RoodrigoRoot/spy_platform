@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_tags %}
 
 {% block content %}
 
@@ -10,7 +11,10 @@
         <th scope="col">#</th>
         <th scope="col">Creator</th>
         <th scope="col">Assigned</th>
+        {% if request.user|has_group:"Manager" or request.user|has_group:"BigBoss"  %}
         <th scope="col">Status</th>
+        {% endif %}
+        <th scope="col">Status Hitmen</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -20,7 +24,10 @@
             <th scope="row">{{ hit.id }}</th>
             <td>{{ hit.creator }}</td>
             <td>{{ hit.assigned }}</td>
-            <td>{{ hit.status}}</td>
+            {% if request.user|has_group:"Manager" or request.user|has_group:"BigBoss"  %}
+            <td>{{ hit.status }}</td>
+            {% endif %}
+            <td>{{ hit.status_hitmen}}</td>
             <td> <a href="{% url 'hits:details_hit' pk=hit.pk %}" class="link">Details</a></td>
           </tr>
 
