@@ -16,6 +16,10 @@ Only we need email and password
 Only we need email and password
 ![](./login.png)
 
+The same case like register a hitmen, when to login a hitme does not exists, show a message
+![](./login_validate.png)
+
+
 ###  Hits
 Depending on the type of user it will show different things of hits
 
