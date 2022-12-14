@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+
+{% block title %}Details{% endblock %}
+
+{% block content %}
+
+{% if message_error %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{message_error}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endif %}
+    {% if message %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{message}}
+        <strong>Please reload</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endif %}
+<div class="container p-3">
+    <h3>Name:</h3>
+    <p>{{ object.user.username }}</p>
+
+    <h3>Email:</h3>
+    <p>{{ object.user.email }}</p>
+
+    <h3>Description:</h3>
+    <p>{{ object.description }}</p>
+
+    <h3>Is Active:</h3>
+    {% if object.user.is_active and request.user|has_group:"BigBoss" or request.user|has_group:"Manager" %}
+    <form action="" method="post">{% csrf_token %}
+        <input type="checkbox" name="is_active" id="is_active"  {% if object.user.is_active %}checked{% endif %}>
+        <br>
+        <button class="btn btn-success" type="submit">Update</button>
+    </form>
+
+    {% else %}
+    <p>{{ object.user.is_active }}</p>
+
+    {% endif %}
+
+    {% if subordinates and request.user|has_group:"BigBoss" or request.user|has_group:"Manager" %}
+        <h3>Subordinates:</h3>
+        {% for subordinate in subordinates %}
+            <p><a href="{% url 'hitmens:hitmen_details' pk=subordinate.pk %}">{{ subordinate.user.email }}</a></p>
+        {% endfor%}
+    {% endif %}
+    </div>
+
+
+{% endblock content %}
