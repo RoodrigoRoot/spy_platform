@@ -11,7 +11,7 @@ class EmailBackend(ModelBackend):
     Custom authentication to login a user with a email and password
     """
     def authenticate(self, request, username=None, password=None, **kwargs):
-        user = UserModel.objects.get(email__iexact=username)
+        user = UserModel.objects.filter(email__iexact=username).first()
         if not user:
             return
         if user.check_password(password) and self.user_can_authenticate(user):
