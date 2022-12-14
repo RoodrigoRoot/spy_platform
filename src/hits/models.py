@@ -54,3 +54,6 @@ class Hit(ModelBase):
     assigned = models.ForeignKey(Hitmen, on_delete=models.DO_NOTHING, related_name='hits')
     objects = MyHits()
 
+    def __str__(self) -> str:
+        return self.title
+

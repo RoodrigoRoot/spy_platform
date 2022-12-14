@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Create{%endblock%}
+
+{% block content %}
+    <div class="container p-3">
+        <h2>Create Hist</h2>
+        <form action="" method="post" class="text-justify">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit" class="btn btn-success">Create</button>
+        </form>
+    </div>
+{% endblock content %}
