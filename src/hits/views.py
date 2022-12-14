@@ -8,8 +8,10 @@ from django.core.exceptions import ValidationError
 
 from src.hits.selectors import get_all_my_hits
 from src.hits.models import Hit
-from src.hits.forms import FormStatusHit
+from src.hits.forms import FormStatusHitmen, FormAssignedHit
 from src.hits.transitions.hit import transition
+from src.hitmens.models import Hitmen
+from src.hits.services import update_assigned_hit
 # Create your views here.
 
 class HitsView(LoginRequiredMixin, View):
@@ -29,24 +31,41 @@ class HitDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super(HitDetailView, self).get_context_data(**kwargs)
-        context['form'] = FormStatusHit()
+        context['form'] = FormStatusHitmen()
+        context['form_assigned'] = FormAssignedHit()
+        context['subordinates'] = Hitmen.objects.get_subordinates_all(self.request.user.email)
         return context
 
     def post(self, request, *args, **kargs):
         object: Hit = self.get_object()
-        form = FormStatusHit(request.POST)
-        print(request.user.hitmen == object.assigned)
-        if form.is_valid():
-            try:
-                transition(object, form.cleaned_data['status'])
+        form = FormStatusHitmen(request.POST)
+        form_assigned = FormAssignedHit(request.POST)
+        if request.POST.get('status_hitmen', False):
+            if form.is_valid():
+                try:
+                    transition(object, form.cleaned_data['status_hitmen'])
+                    message = 'Status hitmen updated'
+                    return render( request, self.template_name, locals())
+                except ValidationError as e:
+                    print(e)
+                    message_error = ''.join(e)
+                    return render( request, self.template_name, locals())
+                except Exception as e:
+                    print(e)
+                    message_error = str(e)
+                    return render( request, self.template_name, locals())
+            else:
                 return render( request, self.template_name, locals())
-            except ValidationError as e:
-                message_error = ''.join(e)
-                return render( request, self.template_name, locals())
-            except Exception as e:
-                message_error = str(e)
-                return render( request, self.template_name, locals())
+
         else:
-            print(form.errors)
-            return render( request, self.template_name, locals())
+            if form_assigned.is_valid():
+                try:
+                    update_assigned_hit(object.pk, form_assigned.cleaned_data.get('assigned'))
+                    message_assigned = 'Hitmen updated'
+                    return render( request, self.template_name, locals())
+                except ValidationError as ve:
+                    message_assigned_error = ''.join(ve)
+                    return render( request, self.template_name, locals())
+            else:
+                return render( request, self.template_name, locals())
 

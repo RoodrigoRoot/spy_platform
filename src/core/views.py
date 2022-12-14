@@ -5,9 +5,9 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
-
 from src.core.forms import LoginForm, RegisterForm
-from src.hitmens.services import create_user
+from src.hitmens.services import create_user, create_hitmen
+
 
 # Create your views here.
 class LoginView(auth_views.LoginView):
@@ -41,7 +41,8 @@ class RegisterHitmenView(View):
 
         form = RegisterForm(request.POST)
         if form.is_valid():
-            create_user(form.cleaned_data)
+            user = create_user(form.cleaned_data)
+            create_hitmen(user)
             return redirect(reverse('core:home'))
         else:
             return render(request, 'core/register.html', {'form':form})
