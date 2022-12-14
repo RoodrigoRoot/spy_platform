@@ -39,7 +39,7 @@
                 </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'hitmens:hitmens' %}" >
+                    <a class="nav-link" href="{% url 'hitmens:hitmen_details' pk=request.user.hitmen.pk %}" >
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAeVJREFUSEuVVuFZ6zAMvPMEbAJMAGwAEzACMAFlAhiBDegIfRuUTZggx2dbbqTYSXn50fpLbOl0ulNCAlD5gbsIQnYrrstGv9/WXYgSLZ8NYRd5/MO19Sa4isUuj9SDXIM4KMNQ+yprgs0yIyN+/7ioHmjcd4bTMYlr1QSKZqTSdCHwncB9zi5gT+GFiT+e0s2OmXo46r6kI4DLIqO5S0cyXc/q+psCXA8qd5OUUX+V4yVBlutJbg8k9zmpJmnO75HUNVmwRxXliJJ2AF7Hh/GWyF1+php/9aoJGjDHkybdg1bBXIZVg4dE7mtkU0vn1Eh6MFqToCYdBVzSyrC/b5JX52UaPRSM1gyiSRcAPmAqArAH8Ezyx+PbounUg/lANMh5jRDSVAdWg+lEkUIPXDRVFT0BuG23LcYBKE0+bHZ3gSyMCkmfAB6H6Od+vKXE3Wmoeud3UyDL1eRuyL9aydFjXco7krmioVzz2UqR84E0HQDe1FDBXH1Bwj+mdGvGVNOw7wcT8+PZaFkRnbmiTEOirJLBq6AbT6ceZOt3UE0Vi5lY1WwctLehV6PPsvpG6wawd2zX2N69DW1Q0flRPJq9rZULAhqI9VfF2Grj/VGfyz3DSGNO192+VdvgM2TwAfD/7BTgv2EE7yA+Wd8XAAAAAElFTkSuQmCC"/>
                     Profile
                     </a>

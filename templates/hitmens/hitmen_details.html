@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+
+{% block title %}Details{% endblock %}
+
+{% block content %}
+
+{% if message_error %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{message_error}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endif %}
+    {% if message %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{message}}
+        <strong>Please reload</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endif %}
+<div class="container p-3">
+    <h3>Name:</h3>
+    <p>{{ object.user.username }}</p>
+
+    <h3>Email:</h3>
+    <p>{{ object.user.email }}</p>
+
+    <h3>Description:</h3>
+    <p>{{ object.description }}</p>
+
+    <h3>Is Active:</h3>
+
+    <form action="" method="post">{% csrf_token %}
+      {% if object.user.is_active and request.user|has_group:"BigBoss" or request.user|has_group:"Manager" %}
+        <input type="checkbox" name="is_active" id="is_active"  {% if object.user.is_active %}checked{% endif %}>
+        <br>
+        <button class="btn btn-success" type="submit">Update</button>
+        {% else %}
+          <p>{{ object.user.is_active }}</p>
+      {% endif %}
+
+        {% if  request.user|has_group:"BigBoss" %}
+        <table class="table table-dark w-25">
+          <thead>
+            <tr>
+              <th scope="col">Hitmen</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for subordinate in subordinates %}
+            <tr>
+              <td>{{subordinate.user.email}}</td>
+              <td><a class="btn btn-danger" href="#">Unassign</a></td>
+            </tr>
+          {% endfor %}
+
+          </tbody>
+        </table>
+        <button class="btn btn-success" type="submit">Update</button>
+        {% endif %}
+    </form>
+
+    </div>
+
+
+{% endblock content %}

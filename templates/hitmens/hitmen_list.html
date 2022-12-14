@@ -12,6 +12,7 @@
             <th scope="col">Username</th>
             <th scope="col">Title</th>
             <th scope="col">Is Active</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -22,6 +23,7 @@
             <td>{{ hitmen.user.username }}</td>
             <td>{{ hitmen.title }}</td>
             <td>{{ hitmen.user.is_active }}</td>
+            <td><a href="{% url 'hitmens:hitmen_details' pk=hitmen.pk %}">Details</a></td>
           </tr>
           {% endfor %}
         </tbody>

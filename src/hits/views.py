@@ -48,11 +48,9 @@ class HitDetailView(LoginRequiredMixin, DetailView):
                     message = 'Status hitmen updated'
                     return render( request, self.template_name, locals())
                 except ValidationError as e:
-                    print(e)
                     message_error = ''.join(e)
                     return render( request, self.template_name, locals())
                 except Exception as e:
-                    print(e)
                     message_error = str(e)
                     return render( request, self.template_name, locals())
             else:
