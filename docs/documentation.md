@@ -1,5 +1,17 @@
 ## Documentation
 
+### Register
+For register an account, only we need ceratin data like:
+- email
+- password
+- name
+- description
+Only we need email and password
+![](./register_hitmen.png)
+
+*If a email already register, we show a message about that email*
+![](./register_validate.png)
+
 ### Login
 Only we need email and password
 ![](./login.png)
