@@ -12,7 +12,8 @@ def create_hitmen(user: User) -> Hitmen:
         Hitmen: Hitmen Object
     """
     hitmen = Hitmen(
-        user=user
+        user=user,
+        title=Hitmen.TitleType.HITMEN
     )
     hitmen.save()
     return hitmen
