@@ -1,4 +1,7 @@
 {% load static %}
+{% load custom_tags %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,11 +30,25 @@
                         <i class="fas fa-home fa-2x"></i>
                     </a>
                 </li>
+                {% if not request.user|has_group:"Hitmen" %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hitmens:hitmens' %}" >
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAA3tJREFUSEt9ltF12kwQhe8V+M3C7DrvxhX8pAJDBSYdJBWEVBBSQaCCpIPYFfy4gpAKjN/DLrH8ZkWTM6uVkAB7z+GgI2l3Z+79ZlaEDgKQcHVkxIftv4NJLy2h99vjyJuvTZbmw3Ddfrvc4JUMMu9GAK8gMiSgPxTACuQKwDI15m4/QkKiIAxLtzeIUXjvBl3INwhHO/3a4eoyJJY5+MEYsz7Ut9qg+YTAk3NTEXwG0BfwAVJ8Z5Isc8hKQJwIhpBiBPI9gAuAWxKzU2MWxxRvZfDk/VREvoYXRRZ5ksyMMdtqYjMH533/pChmID8GIchPp8bOg0QVFE1fnPeDE5GfAPtCvOsZc6MT433ddBQlVVk+VbI8ej+hyA8A25x825SrRdGjc0sCaugiPT+f6mLe+0FH5CeB/l7622fyrY3aZ5vNPGayTK0dV+DUG2gUKKN4+EsOK1ky524EuGYhi7zDuerZLYppXOw2tXYSA+l3ICsKLoQc94xZVvyEwLLN7xmYfIbIl/T8fFbRlW38FpCzHLw01q6VKO+8EnavkqTWmiqz7PdmhoSNNRoUZc4vAbkCOE5tubummW2cGnyWk5eqrabswga4F8ifnrW1dA0v6sxqiTJXL2RqasoN1OhriMzzhIuA6d/iI5JkCshtem4nFTLqV1dwT8j61NrLtkTOhW6Uk8YYu61Q884NOoIVgbNAbqxLAH/y0qu6wBrSIbWWKkEzAy39/0CO02hQSQIRqlpk3sYUU2vsutkjH52fEPJDgLuetQHpulXUUhTyJX0TTY7uPXk/1M0FMghRCdag/Do1VoOqR7bZlKCodJGuFqZaLCTWzwh8bzPvhyL4KpARjzfEZU7tQ3btvetrkQowAPkujUW6X2hrEhdQ5pNk1pWAYkXJLaQIvYjkEOB1bIJavZfd2DIEeOhZOzgoNE09tGaR/2POiupIJzQLr0rEe9/viKj5F9q2gz9luOPU2BLz0J/qw6y8apR8dCiafnCwADvuyxOATf8aJ2C7xRB4dP49Rb5FCtYg58/AbYWk8n4CuaZgWqjmATZ+6Bnzfa9fHTlwYglHubRlXO1PqvANUQN3IGcB7ReO24P5ZYGUPT1zfiRFMSmNhf50rCCyQpLc1DVTQb/38dCgaLeolutBMEdu7M7eytHGof+iB813j8yLCu6+Hl75YNB3/wEqI9ospzU3GwAAAABJRU5ErkJggg=="/>
+                    Hitmens
+                    </a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hitmens:hitmens' %}" >
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAeVJREFUSEuVVuFZ6zAMvPMEbAJMAGwAEzACMAFlAhiBDegIfRuUTZggx2dbbqTYSXn50fpLbOl0ulNCAlD5gbsIQnYrrstGv9/WXYgSLZ8NYRd5/MO19Sa4isUuj9SDXIM4KMNQ+yprgs0yIyN+/7ioHmjcd4bTMYlr1QSKZqTSdCHwncB9zi5gT+GFiT+e0s2OmXo46r6kI4DLIqO5S0cyXc/q+psCXA8qd5OUUX+V4yVBlutJbg8k9zmpJmnO75HUNVmwRxXliJJ2AF7Hh/GWyF1+php/9aoJGjDHkybdg1bBXIZVg4dE7mtkU0vn1Eh6MFqToCYdBVzSyrC/b5JX52UaPRSM1gyiSRcAPmAqArAH8Ezyx+PbounUg/lANMh5jRDSVAdWg+lEkUIPXDRVFT0BuG23LcYBKE0+bHZ3gSyMCkmfAB6H6Od+vKXE3Wmoeud3UyDL1eRuyL9aydFjXco7krmioVzz2UqR84E0HQDe1FDBXH1Bwj+mdGvGVNOw7wcT8+PZaFkRnbmiTEOirJLBq6AbT6ceZOt3UE0Vi5lY1WwctLehV6PPsvpG6wawd2zX2N69DW1Q0flRPJq9rZULAhqI9VfF2Grj/VGfyz3DSGNO192+VdvgM2TwAfD/7BTgv2EE7yA+Wd8XAAAAAElFTkSuQmCC"/>
+                    Profile
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'core:logout'%}" >
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAfZJREFUSEuFVkt2wjAMHO2b9Nl03/Ym9Cb0ZOUoPQK9AeyLoWTLe+7zX4qVwAIcR9boMyNDYB8C4PMzX3ObtlYs8lb8YWvpkhstocd9AsHXgDrTHkCatMMyL77PAbrstQymi9uS918eeFsty4I3Ao6e6HMw5rucJ257c+5IwKt0vtyN0K/wNnyHYoV1ABmsfVd6AEzOxR4P1grgDmKhv7d8frSWEkDoU/0Qbu4c9wNADqyj1Rq7UoCE0RpKbCSkSPOpaEDAYDLAKoc5i5KD6eIirWqArIQxUg6gRXo7/+7Hzcsu5h1jLQlKgFai0iNFXJroco8Od6IPY8y1lVEBqFpJpWq17oqfXxMwnRMJAFyJ6OPJmEN6zACMJGWfNRkILBAb2Vuko1KzwPnRmn2RM2dh1QHvIwdoHE/JacBIotoXHw8BOKM0JRcHIPwRaNtKlKwfAnBNdIOs9eDnTrQ1xl4blRJli9AiTbVhF0sUdbChWdcjdqWplt48Aw1AHxVr2pVIokTrAHoG0p0EDk9iFjFt1XOtRHIWaaKbg7UeEAZrKukE+ybngjqf5yXmY5n3RqOvB06jtfU+kUK7XLbwft/fCVw2RcxyvsRdwolAO3Hh8Ggft7ObcnWO6Fdsu5DazOaBPUaUaSj0ZffB0r+Eni2zInVu+Yl/sQIbLGet9ygAAAAASUVORK5CYII="/>
                     Exit
                     </a>
-
                 </li>
             </ul>
         </div>
