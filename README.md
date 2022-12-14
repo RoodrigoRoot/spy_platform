@@ -3,11 +3,20 @@
 
 ## Overview:
 
-Spy's Platform
+Spy's Platform.
+The greate platform to create and manage:
+* Hitmens
+* Hits
 
+We can have a grate BigBoss and managers.
 # The .env file
 Because this project a interview, the file .env stay inside the project.
 **This practice is awful to enviromento difference to local**
+
+## Documentation
+
+In the next link you can see a document with examples of the project and its operation.
+[Flow](https://github.com/RoodrigoRoot/spy_platform/blob/main/docs/documentation.md)
 
 
 ## Objectives
@@ -144,11 +153,4 @@ The BigBoss has more permissions than the manager.
 #### To stop project
 
 `docker-compose stop`
-
-
-## Documentation
-
-In the next link you can see a document with examples of the project and its operation.
-[Flow](https://es.wikipedia.org/wiki/Make)
-
 
