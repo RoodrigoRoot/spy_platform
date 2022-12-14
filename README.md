@@ -73,6 +73,10 @@ The BigBoss has more permissions than the manager.
 
 - Interactions with apis o thirds
 
+## Goals that could not be completed
+
+- Point 7. User detail (Only the boss can edit #4.)
+- Point 8. Hit reassignment (nice to have)
 
 
 ## Stack's technology
