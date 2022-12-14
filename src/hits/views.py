@@ -1,12 +1,10 @@
 from typing import Dict, Any
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 from django.views import View
 from django.views.generic import DetailView, CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin
 from django.core.exceptions import ValidationError
-from django.utils.decorators import method_decorator
-
 
 from src.hits.selectors import get_all_my_hits
 from src.hits.models import Hit
@@ -14,7 +12,7 @@ from src.hits.forms import FormStatusHitmen, FormAssignedHit, CreateHitFormModel
 from src.hits.transitions.hit import transition
 from src.hitmens.models import Hitmen
 from src.hits.services import update_assigned_hit, create_hit
-from src.hits.decorators import check_user_able_to_create_hit
+
 # Create your views here.
 
 class HitsView(LoginRequiredMixin, View):
@@ -72,12 +70,23 @@ class HitDetailView(LoginRequiredMixin, DetailView):
             else:
                 return render( request, self.template_name, locals())
 
-method_decorator(check_user_able_to_create_hit('Hitmen'), name='dispatch')
-class HitCreateView(CreateView):
+
+class HitCreateView(LoginRequiredMixin,AccessMixin, CreateView):
     model = Hit
     form_class = CreateHitFormModel
     success_url = "/hits/"
     template_name = 'hits/hit_create.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            # This will redirect to the login view
+            return self.handle_no_permission()
+        if not self.request.user.groups.filter(name__in=['BigBoss', 'Manager']).exists():
+            # Redirect the user to somewhere else - add your URL here
+            return redirect(reverse("hits:hits"))
+
+        # Checks pass, let http method handlers process the request
+        return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(email=request.user.email)
