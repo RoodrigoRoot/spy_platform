@@ -88,7 +88,50 @@ The BigBoss has more permissions than the manager.
 **with some changes**
 
 
-## Instructions
+## Instructions to up project
+
+
+#### These instructions use [make](https://es.wikipedia.org/wiki/Make) to streamline interaction with the project.
+
+> Note: If not had `make` on your compute at the bottom of this page are instructions with docker commands
+
+
+### To build and run project
+
+**Build project**
+
+`make build`
+
+
+**Run project**
+
+`make run`
+
+
+#### To stop project
+
+`make stop`
+
+#### To run tests
+
+`make test`
+
+
+## Other commands
+
+#### To enter the inside of the container bash
+
+`make bash`
+
+
+#### To watch logs of Back
+
+`make logs-back`
+
+
+#### To watch logs of DB
+
+`make logs-db`
 
 
 ## Instructions with Docker Compose

@@ -3,7 +3,6 @@ from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
 
 from src.hitmens.transtions.user import transition
-
 from src.hitmens.models import User
 
 
@@ -44,6 +43,6 @@ def change_active_user(user: User, user_authorization: User, new_status: bool) -
         User: User with a new status of is_active
     """
     if not user_authorization.groups.filter(name__in=['BigBoss', 'Manager']).exists():
-        raise ValidationError('This uset does not have permissions to this action')
+        raise ValidationError('This user does not have permissions to this action')
     transition(user, new_status)
     return user
